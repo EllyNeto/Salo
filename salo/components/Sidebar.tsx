@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { 
   Home, 
   Search, 
@@ -13,22 +13,27 @@ import {
   Menu,
   X
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const navItems = [
-  { icon: Home, label: "Início", href: "/dashboard" },
-  { icon: Search, label: "Explorar", href: "/explore" },
-  { icon: BarChart2, label: "Análise", href: "/analysis" },
-  { icon: BookOpen, label: "Aprendizado", href: "/learning" },
-  { icon: Building2, label: "Empresas", href: "/explore" }, // Note: Both explore and companies point to explore for now
-  { icon: User, label: "Perfil", href: "/profile" },
+  { icon: Home, label: "Início", href: "/dashboard"},
+  { icon: Search, label: "Explorar", href: "/enterprise"},
+  { icon: BarChart2, label: "Análise", href: "/analysis"},
+  { icon: BookOpen, label: "Aprendizado", href: "/learning", },
+  { icon: Building2, label: "Empresas", href: "/explore", }, // Note: Both explore and companies point to explore for now
+  { icon: User, label: "Perfil", href: "/profile", },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-
+  const [isNAvItems, setNavItems] = useState(navItems);
   const toggleSidebar = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    console.log(pathname)
+  }, [])
 
   return (
     <>
@@ -63,20 +68,20 @@ export function Sidebar() {
       </div>
 
       <nav className="flex-1 px-4 space-y-1">
-        {navItems.map((item) => {
+        {isNAvItems.map((item, index) => {
           const isActive = pathname === item.href;
           return (
             <Link
-              key={item.label}
+              key={index}
               href={item.href}
-              onClick={() => setIsOpen(false)}
+              onClick={() => {}}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                isActive 
+                item.href == pathname
                   ? "bg-primary/5 text-primary shadow-sm" 
                   : "text-foreground/50 hover:text-foreground hover:bg-foreground/5"
               }`}
             >
-              <item.icon className={`w-5 h-5 ${isActive ? "text-primary" : "text-foreground/40"}`} />
+              <item.icon className={`w-5 h-5 ${item.href == pathname ? "text-primary" : "text-foreground/40"}`} />
               {item.label}
             </Link>
           );
