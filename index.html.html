@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="pt-PT" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salo - Plataforma de Carreira Inteligente</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- React & Router Dependencies -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#943700",
+                        "surface-container-low": "#f3f3fe",
+                        "surface-container-high": "#e7e7f3",
+                        "outline": "#737686",
+                        "inverse-on-surface": "#f0f0fb",
+                        "tertiary-container": "#bc4800",
+                        "on-background": "#191b23",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e1e2ed",
+                        "primary": "#02A0DC",
+                        "primary-fixed": "#dbe1ff",
+                        "secondary-container": "#dce2f3",
+                        "surface": "#faf8ff",
+                        "on-secondary-container": "#5e6572",
+                        "background": "#faf8ff",
+                        "surface-variant": "#e1e2ed",
+                        "inverse-surface": "#2e3039",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "outline-variant": "#c3c6d7",
+                        "on-surface-variant": "#434655",
+                        "error": "#ba1a1a",
+                        "secondary": "#585f6c",
+                        "secondary-fixed-dim": "#c0c7d6",
+                        "on-tertiary-container": "#ffede6",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "on-tertiary-fixed": "#360f00",
+                        "surface-tint": "#0053db",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#faf8ff",
+                        "on-primary-fixed": "#00174b",
+                        "on-secondary-fixed": "#151c27",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-surface": "#191b23",
+                        "tertiary-fixed": "#ffdbcd",
+                        "surface-container": "#ededf9",
+                        "secondary-fixed": "#dce2f3",
+                        "on-secondary-fixed-variant": "#404754",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#d9d9e5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#eeefff",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#2563eb",
+                        "inverse-primary": "#b4c5ff"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "section-gap": "48px",
+                        "margin-mobile": "20px",
+                        "stack-gap": "24px",
+                        "card-padding": "24px"
+                    },
+                    fontFamily: {
+                        "headline-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    fontSize: {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["15px", {"lineHeight": "22px", "fontWeight": "400"}],
+                        "label-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["17px", {"lineHeight": "26px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .ios-shadow { box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.03); }
+        .glass-card { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(0, 0, 0, 0.08); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        // --- Shared Components ---
+
+        const TopAppBar = ({ step, progress, hideOnboardingNav = false }) => {
+            const navigate = useNavigate();
+            return (
+                <header className="bg-surface sticky top-0 z-50 border-b border-outline-variant w-full h-16 lg:h-[72px] flex justify-between items-center px-gutter md:px-8 lg:px-12">
+                    <div className="flex items-center gap-4">
+                        {step ? (
+                            <img src="SALO-LOGO.jpeg" a lt="Salo" className="h-9 w-auto" />
+                        ) : (
+                            <img src="SALO-LOGO.jpeg" alt="Salo" className="h-9 w-auto cursor-pointer" onClick={() => navigate('/')} />
+                        )}
+                    </div>
+                    <div className="flex items-center gap-2">
+                        {step ? (
+                            <button onClick={() => navigate('/dashboard')} aria-label="Sair do onboarding" className="p-2 hover:bg-surface-container-highest rounded-full transition-colors">
+                                <span className="material-symbols-outlined text-on-surface-variant">close</span>
+                            </button>
+                        ) : (
+                            <button aria-label="Notificações" className="relative p-2 hover:bg-surface-container-highest rounded-full transition-colors">
+                                <span className="material-symbols-outlined text-on-surface-variant">notifications</span>
+                                <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-primary ring-2 ring-surface"></span>
+                            </button>
+                        )}
+                    </div>
+                </header>
+            );
+        };
+
+        const BottomNav = () => {
+            const location = useLocation();
+            const isActive = (path) => location.pathname === path;
+            
+            return (
+                <nav className="fixed bottom-0 w-full flex justify-around items-center h-16 pb-safe px-4 bg-surface/80 backdrop-blur-md border-t border-outline-variant z-50 md:left-0 md:w-20 md:h-full md:flex-col md:justify-start md:pt-20 md:gap-8 md:border-r md:border-t-0 lg:w-64 lg:items-stretch lg:px-3 lg:pt-8 lg:gap-2">
+                    <Link to="/dashboard" className={`flex flex-col items-center justify-center transition-all lg:w-full lg:flex-row lg:justify-start lg:gap-3 lg:rounded-xl lg:px-4 lg:py-3 ${isActive('/dashboard') ? 'bg-primary/10 text-primary' : 'text-secondary'} hover:bg-primary/5 hover:text-primary active:scale-90`}>
+                        <span className="material-symbols-outlined" style={{fontVariationSettings: isActive('/dashboard') ? "'FILL' 1" : ""}}>home</span>
+                        <span className="text-[11px] lg:text-sm lg:font-medium">Home</span>
+                    </Link>
+                    <Link to="/explore" className={`flex flex-col items-center justify-center transition-all lg:w-full lg:flex-row lg:justify-start lg:gap-3 lg:rounded-xl lg:px-4 lg:py-3 ${isActive('/explore') ? 'bg-primary/10 text-primary' : 'text-secondary'} hover:bg-primary/5 hover:text-primary active:scale-90`}>
+                        <span className="material-symbols-outlined" style={{fontVariationSettings: isActive('/explore') ? "'FILL' 1" : ""}}>search</span>
+                        <span className="text-[11px] lg:text-sm lg:font-medium">Explorar</span>
+                    </Link>
+                    <Link to="/roadmap" className={`flex flex-col items-center justify-center transition-all lg:w-full lg:flex-row lg:justify-start lg:gap-3 lg:rounded-xl lg:px-4 lg:py-3 ${isActive('/roadmap') ? 'bg-primary/10 text-primary' : 'text-secondary'} hover:bg-primary/5 hover:text-primary active:scale-90`}>
+                        <span className="material-symbols-outlined" style={{fontVariationSettings: isActive('/roadmap') ? "'FILL' 1" : ""}}>analytics</span>
+                        <span className="text-[11px] lg:text-sm lg:font-medium">Análise</span>
+                    </Link>
+                    <Link to="/evolution" className={`flex flex-col items-center justify-center transition-all lg:w-full lg:flex-row lg:justify-start lg:gap-3 lg:rounded-xl lg:px-4 lg:py-3 ${isActive('/evolution') ? 'bg-primary/10 text-primary' : 'text-secondary'} hover:bg-primary/5 hover:text-primary active:scale-90`}>
+                        <span className="material-symbols-outlined" style={{fontVariationSettings: isActive('/evolution') ? "'FILL' 1" : ""}}>trending_up</span>
+                        <span className="text-[11px] lg:text-sm lg:font-medium">Evolução</span>
+                    </Link>
+                    <Link to="/profile" className={`flex flex-col items-center justify-center transition-all lg:w-full lg:flex-row lg:justify-start lg:gap-3 lg:rounded-xl lg:px-4 lg:py-3 ${isActive('/profile') ? 'bg-primary/10 text-primary' : 'text-secondary'} hover:bg-primary/5 hover:text-primary active:scale-90`}>
+                        <span className="material-symbols-outlined" style={{fontVariationSettings: isActive('/profile') ? "'FILL' 1" : ""}}>person</span>
+                        <span className="text-[11px] lg:text-sm lg:font-medium">Perfil</span>
+                    </Link>
+                </nav>
+            );
+        };
+
+        // --- Screens ---
+
+        const LandingPage = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="flex flex-col min-h-screen">
+                    <header className="flex justify-between items-center w-full px-gutter h-16 max-w-7xl mx-auto z-50">
+                        <img src="SALO-LOGO.jpeg" alt="Salo" className="h-9 w-auto" />
+                        <div className="hidden md:flex gap-8">
+                            <a className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Funcionalidades</a>
+                            <a className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Empresas</a>
+                            <a className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Casos de Sucesso</a>
+                        </div>
+                        <button onClick={() => navigate('/login')} className="px-6 py-2 rounded-lg font-label-md text-label-md text-primary border border-outline-variant hover:bg-surface-container-low">Iniciar Sessão</button>
+                    </header>
+                    <main className="flex-1 flex items-center justify-center relative overflow-hidden px-margin-mobile py-section-gap">
+                        <div className="max-w-4xl w-full text-center relative z-10">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-low border border-outline-variant rounded-full mb-8">
+                                <span className="material-symbols-outlined text-[16px] text-primary">auto_awesome</span>
+                                <span className="font-label-md text-label-md text-on-surface-variant">Mapeamento de Carreira Inteligente v2.0</span>
+                            </div>
+                            <h1 className="font-display text-[48px] md:text-[64px] font-bold text-on-surface mb-6 leading-tight">
+                                A sua jornada profissional, <br className="hidden md:block"/>
+                                <span className="text-primary">planeada de forma inteligente.</span>
+                            </h1>
+                            <p className="font-body-lg text-body-lg text-secondary max-w-2xl mx-auto mb-10">
+                                Descubra caminhos, supere lacunas de competências e atinja os seus objetivos profissionais com análises de IA de alta fidelidade para profissionais de topo.
+                            </p>
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                                <button onClick={() => navigate('/onboarding/1')} className="w-full sm:w-auto px-8 py-4 bg-primary text-on-primary font-headline-sm rounded-xl shadow-lg hover:brightness-110 flex items-center justify-center gap-2 group">
+                                    Começar Agora
+                                    <span className="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
+                                </button>
+                                <button className="w-full sm:w-auto px-8 py-4 bg-surface text-on-surface font-headline-sm rounded-xl border border-outline-variant hover:bg-surface-container-low">
+                                    Ver Metodologia
+                                </button>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const LoginPage = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="min-h-screen flex items-center justify-center px-4 bg-[#F5F5F7]">
+                    <div className="w-full max-w-[440px] flex flex-col gap-8">
+                        <div className="flex flex-col items-center">
+                            <img src="SALO-LOGO.jpeg" alt="Salo" className="h-10 w-auto mb-2" />
+                            <div className="text-secondary text-center">A sua ferramenta executiva para transição de carreira.</div>
+                        </div>
+                        <div className="bg-white border border-outline-variant rounded-xl p-8 flex flex-col gap-6 shadow-sm">
+                            <h1 className="text-2xl font-bold text-on-surface">Iniciar Sessão</h1>
+                            <form className="flex flex-col gap-5" onSubmit={(e) => { e.preventDefault(); navigate('/dashboard'); }}>
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-sm font-medium text-on-surface-variant">Endereço de e-mail</label>
+                                    <input className="w-full h-12 px-4 rounded-lg border border-outline-variant bg-surface-container-low" placeholder="nome@empresa.com" required type="email" />
+                                </div>
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-sm font-medium text-on-surface-variant">Palavra-passe</label>
+                                    <input className="w-full h-12 px-4 rounded-lg border border-outline-variant bg-surface-container-low" placeholder="Introduza a sua palavra-passe" required type="password" />
+                                </div>
+                                <button className="w-full h-12 bg-primary text-white rounded-lg flex items-center justify-center gap-2 hover:brightness-110">
+                                    Continuar <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                                </button>
+                            </form>
+                            <div className="flex items-center gap-4 py-2">
+                                <div className="h-[1px] bg-outline-variant flex-grow"></div>
+                                <span className="text-xs text-outline font-bold">OU</span>
+                                <div className="h-[1px] bg-outline-variant flex-grow"></div>
+                            </div>
+                            <button className="w-full h-12 border border-outline-variant rounded-lg flex items-center justify-center gap-3">
+                                <span className="text-sm">Continuar com o Google</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const OnboardingStep1 = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="min-h-screen flex flex-col">
+                    <TopAppBar step="2" progress="25" />
+                    <main className="flex-grow flex items-center justify-center py-section-gap px-4">
+                        <div className="w-full max-w-[560px]">
+                            <div className="bg-white rounded-xl border border-outline-variant p-card-padding shadow-sm">
+                                <h1 className="text-3xl font-bold text-on-surface mb-2">Experiência Profissional</h1>
+                                <p className="text-secondary mb-8">Conte-nos sobre o seu percurso no mercado de trabalho.</p>
+                                <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); navigate('/onboarding/2'); }}>
+                                    <div className="border border-outline-variant rounded-lg overflow-hidden divide-y">
+                                        <div className="p-4 bg-surface hover:bg-surface-container-low">
+                                            <label className="block text-xs font-bold text-on-surface-variant mb-1">Cargo mais recente</label>
+                                            <input type="text" placeholder="Ex: Senior Product Designer" className="w-full border-none p-0 focus:ring-0" />
+                                        </div>
+                                        <div className="p-4 bg-surface hover:bg-surface-container-low">
+                                            <label className="block text-xs font-bold text-on-surface-variant mb-1">Empresa</label>
+                                            <input type="text" placeholder="Ex: Google ou Freelance" className="w-full border-none p-0 focus:ring-0" />
+                                        </div>
+                                        <div className="p-4 bg-surface hover:bg-surface-container-low">
+                                            <label className="block text-xs font-bold text-on-surface-variant mb-1">Anos de experiência</label>
+                                            <input type="number" placeholder="0" className="w-full border-none p-0 focus:ring-0" />
+                                        </div>
+                                    </div>
+                                    <button type="submit" className="w-full bg-primary text-white py-4 rounded-xl font-bold flex justify-center items-center gap-2">
+                                        Continuar <span className="material-symbols-outlined">arrow_forward</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const OnboardingStep2 = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="min-h-screen flex flex-col">
+                    <TopAppBar step="3" progress="37.5" />
+                    <main className="flex-grow flex items-center justify-center py-section-gap px-4">
+                        <div className="w-full max-w-[600px] flex flex-col gap-6">
+                            <h1 className="text-3xl font-bold text-on-surface">Competências</h1>
+                            <p className="text-secondary">Quais são as suas principais valências técnicas?</p>
+                            <div className="bg-white rounded-xl border border-outline-variant p-6 flex flex-col gap-6 shadow-sm">
+                                <div className="space-y-2">
+                                    <label className="text-sm font-bold text-on-surface-variant">Competências Principais</label>
+                                    <div className="relative">
+                                        <input className="w-full h-14 border border-outline-variant rounded-xl px-4" placeholder="ex: Gestão de Produto, UI Design" />
+                                    </div>
+                                    <div className="flex flex-wrap gap-2 pt-2">
+                                        <span className="bg-primary/10 text-primary px-3 py-1.5 rounded-full flex items-center gap-2 text-xs font-bold">Gestão de Produto <span className="material-symbols-outlined text-xs">close</span></span>
+                                        <span className="bg-primary/10 text-primary px-3 py-1.5 rounded-full flex items-center gap-2 text-xs font-bold">UI Design <span className="material-symbols-outlined text-xs">close</span></span>
+                                    </div>
+                                </div>
+                                <div className="flex justify-between items-center pt-4">
+                                    <button onClick={() => navigate('/onboarding/1')} className="text-on-surface-variant font-bold">Voltar</button>
+                                    <button onClick={() => navigate('/onboarding/3')} className="bg-primary text-white px-10 py-3 rounded-xl font-bold shadow-lg">Continuar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const OnboardingStep3 = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="min-h-screen flex flex-col">
+                    <TopAppBar step="4" progress="50" />
+                    <main className="flex-grow flex items-center justify-center py-section-gap px-4">
+                        <div className="w-full max-w-xl">
+                            <h1 className="text-3xl font-bold text-on-surface mb-2">Objetivo de Carreira</h1>
+                            <p className="text-secondary mb-10">Onde pretende chegar no próximo ano?</p>
+                            <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); navigate('/onboarding/4'); }}>
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="block text-sm font-bold text-on-surface-variant mb-1">Cargo pretendido</label>
+                                        <input className="w-full bg-white border border-outline-variant rounded-xl py-4 px-4" placeholder="Ex: Diretor de Marketing, Engenheiro de Software Sénior" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-bold text-on-surface-variant mb-1">Setor de interesse</label>
+                                        <select className="w-full bg-white border border-outline-variant rounded-xl py-4 px-4">
+                                            <option>Tecnologia e Inovação</option>
+                                            <option>Banca e Finanças</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="flex gap-4">
+                                    <button type="button" onClick={() => navigate('/onboarding/2')} className="flex-1 py-4 text-on-surface-variant font-bold">Voltar</button>
+                                    <button type="submit" className="flex-[2] bg-primary text-white py-4 rounded-xl font-bold">Continuar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const OnboardingStep4 = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="min-h-screen flex flex-col">
+                    <TopAppBar step="5" progress="62.5" />
+                    <main className="flex-grow flex flex-col items-center justify-center py-section-gap px-4 max-w-3xl mx-auto w-full">
+                        <h1 className="text-3xl font-bold text-on-surface mb-2">Empresas de Sonho</h1>
+                        <p className="text-secondary mb-10">Em que organizações gostaria de trabalhar?</p>
+                        <div className="w-full bg-white border border-outline-variant rounded-xl p-6 shadow-sm space-y-6">
+                            <div>
+                                <label className="block text-sm font-bold text-on-surface-variant mb-2">Empresas alvo</label>
+                                <input className="w-full px-4 py-4 border border-outline-variant rounded-lg" placeholder="ex: Sonangol, Chevron, Endiama..." />
+                            </div>
+                            <div className="pt-4 border-t border-outline-variant">
+                                <span className="block text-sm font-bold text-on-surface-variant mb-4">Populares em Angola</span>
+                                <div className="flex flex-wrap gap-2">
+                                    {['Sonangol', 'Chevron Angola', 'TotalEnergies Angola', 'Endiama'].map(c => (
+                                        <button key={c} className="px-4 py-2 rounded-full border border-outline-variant hover:bg-surface-container-low text-xs font-bold">{c} +</button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex justify-between w-full mt-10">
+                            <button onClick={() => navigate('/onboarding/3')} className="px-8 py-3 rounded-lg font-bold">Anterior</button>
+                            <button onClick={() => navigate('/onboarding/5')} className="px-12 py-3 bg-primary text-white rounded-lg font-bold">Continuar</button>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const OnboardingStep5 = () => {
+            const navigate = useNavigate();
+            const [selected, setSelected] = useState([2]); // Default select index 2 (Balance)
+
+            const options = [
+                { id: 0, title: "Trabalho Remoto", desc: "Flexibilidade total de localização", icon: "distance" },
+                { id: 1, title: "Inovação Tecnológica", desc: "Stack moderna e vanguarda", icon: "biotech" },
+                { id: 2, title: "Equilíbrio Vida-Trabalho", desc: "Respeito pelo tempo pessoal", icon: "balance" },
+                { id: 3, title: "Cultura Colaborativa", desc: "Equipas unidas e suporte mútuo", icon: "groups" },
+            ];
+
+            const toggleSelect = (id) => {
+                if (selected.includes(id)) setSelected(selected.filter(i => i !== id));
+                else setSelected([...selected, id]);
+            };
+
+            return (
+                <div className="min-h-screen flex flex-col">
+                    <TopAppBar step="6" progress="75" />
+                    <main className="flex-grow flex flex-col items-center px-4 py-12">
+                        <div className="w-full max-w-2xl">
+                            <h1 className="text-3xl font-bold mb-2">Interesses e Cultura</h1>
+                            <p className="text-secondary mb-10">O que valoriza num ambiente de trabalho?</p>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+                                {options.map(opt => (
+                                    <button 
+                                        key={opt.id}
+                                        onClick={() => toggleSelect(opt.id)}
+                                        className={`p-6 border rounded-xl text-left transition-all ${selected.includes(opt.id) ? 'border-primary bg-primary/5' : 'border-outline-variant bg-white'} relative`}
+                                    >
+                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-3 ${selected.includes(opt.id) ? 'bg-primary text-white' : 'bg-primary/10 text-primary'}`}>
+                                            <span className="material-symbols-outlined">{opt.icon}</span>
+                                        </div>
+                                        <div className="font-bold">{opt.title}</div>
+                                        <div className="text-xs text-secondary">{opt.desc}</div>
+                                        {selected.includes(opt.id) && (
+                                            <span className="material-symbols-outlined absolute top-4 right-4 text-primary" style={{fontVariationSettings: "'FILL' 1"}}>check_circle</span>
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="flex justify-between">
+                                <button onClick={() => navigate('/onboarding/4')} className="text-secondary font-bold">Voltar</button>
+                                <button onClick={() => navigate('/onboarding/6')} className="bg-primary text-white px-10 py-3 rounded-xl font-bold">Continuar</button>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const OnboardingStep6 = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="min-h-screen flex flex-col">
+                    <TopAppBar step="7" progress="87.5" />
+                    <main className="flex-grow flex flex-col items-center justify-center px-4 py-12">
+                        <div className="w-full max-w-2xl">
+                            <h1 className="text-3xl font-bold mb-2">Idiomas</h1>
+                            <p className="text-secondary mb-10">Quais são as línguas que domina?</p>
+                            <div className="bg-white border border-outline-variant rounded-xl divide-y mb-8">
+                                <div className="p-6 flex justify-between items-center">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center"><span className="material-symbols-outlined">language</span></div>
+                                        <div><div className="font-bold">Português</div><div className="text-xs text-secondary">Nativo</div></div>
+                                    </div>
+                                    <button className="text-error"><span className="material-symbols-outlined">delete</span></button>
+                                </div>
+                                <div className="p-6 flex justify-between items-center">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center"><span className="material-symbols-outlined">language</span></div>
+                                        <div><div className="font-bold">Inglês</div><div className="text-xs text-secondary">Avançado (C1/C2)</div></div>
+                                    </div>
+                                    <button className="text-error"><span className="material-symbols-outlined">delete</span></button>
+                                </div>
+                                <div className="p-4 bg-surface-container-low">
+                                    <button className="w-full py-4 border-2 border-dashed border-outline-variant rounded-lg font-bold text-primary flex items-center justify-center gap-2">
+                                        <span className="material-symbols-outlined">add_circle</span> Adicionar outro idioma
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="flex justify-between">
+                                <button onClick={() => navigate('/onboarding/5')} className="text-secondary font-bold">Voltar</button>
+                                <button onClick={() => navigate('/onboarding/7')} className="bg-primary text-white px-10 py-3 rounded-xl font-bold">Continuar</button>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const OnboardingFinal = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="min-h-screen flex flex-col items-center">
+                    <TopAppBar step="8" progress="100" />
+                    <main className="flex-grow flex flex-col items-center py-12 px-4 max-w-4xl w-full">
+                        <div className="text-center mb-10">
+                            <h1 className="text-4xl font-bold mb-4">Tudo pronto!</h1>
+                            <p className="text-secondary">A nossa IA está a preparar o seu percurso personalizado.</p>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+                            <div className="bg-white border border-outline-variant rounded-xl p-8 flex flex-col justify-center items-center text-center">
+                                <div className="w-48 h-48 rounded-full bg-primary/5 flex items-center justify-center mb-6 relative">
+                                    <div className="absolute inset-0 border-2 border-primary/20 rounded-full animate-pulse"></div>
+                                    <span className="material-symbols-outlined text-6xl text-primary" style={{fontVariationSettings: "'wght' 200"}}>psychology</span>
+                                </div>
+                                <div className="font-bold text-xl mb-2">Processamento de Dados</div>
+                                <div className="flex gap-1"><div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div><div className="w-2 h-2 bg-primary rounded-full animate-bounce delay-100"></div><div className="w-2 h-2 bg-primary rounded-full animate-bounce delay-200"></div></div>
+                            </div>
+                            <div className="space-y-4">
+                                <div className="bg-white border border-outline-variant rounded-xl p-6">
+                                    <div className="text-xs text-secondary font-bold uppercase mb-2">O Seu Foco</div>
+                                    <div className="text-xl font-bold mb-4">Senior Product Designer</div>
+                                    <ul className="space-y-2">
+                                        <li className="flex items-center gap-2"><span className="material-symbols-outlined text-primary text-sm" style={{fontVariationSettings: "'FILL' 1"}}>check_circle</span> Perfil profissional otimizado</li>
+                                        <li className="flex items-center gap-2"><span className="material-symbols-outlined text-primary text-sm" style={{fontVariationSettings: "'FILL' 1"}}>check_circle</span> Competências mapeadas</li>
+                                    </ul>
+                                </div>
+                                <button onClick={() => navigate('/dashboard')} className="w-full py-4 bg-primary text-white rounded-xl font-bold shadow-lg hover:brightness-110">Finalizar e Ver Dashboard</button>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const DashboardPage = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="bg-[#FAF8FF] min-h-screen pb-24 md:pb-0 md:pl-20 lg:pl-64">
+                    <TopAppBar />
+                    <main className="max-w-7xl mx-auto p-gutter lg:p-12 xl:p-14">
+                        <h1 className="text-3xl font-bold mb-2">Bom dia, Alex.</h1>
+                        <p className="text-secondary mb-10">A sua transição de carreira para Senior Product Design está 68% concluída.</p>
+                        
+                        <div className="grid grid-cols-12 gap-6">
+                            <div className="col-span-12 lg:col-span-8 bg-white border border-outline-variant rounded-2xl p-8 flex flex-col md:flex-row items-center gap-8 shadow-sm">
+                                <div className="flex-1">
+                                    <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold mb-4 inline-block">Objetivo Ativo</span>
+                                    <h2 className="text-2xl font-bold mb-2">Senior Product Designer</h2>
+                                    <p className="text-secondary mb-6">Focado em prototipagem de alta fidelidade e pensamento sistémico.</p>
+                                    <button onClick={() => navigate('/roadmap')} className="bg-primary text-white px-6 py-3 rounded-xl font-bold">Continuar Percurso</button>
+                                </div>
+                                <div className="relative w-40 h-40 flex items-center justify-center">
+                                    <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="45" fill="none" stroke="#E5E7EB" strokeWidth="8" />
+                                        <circle cx="50" cy="50" r="45" fill="none" stroke="#02A0DC" strokeWidth="8" strokeDasharray="283" strokeDashoffset="90" strokeLinecap="round" />
+                                    </svg>
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                                        <span className="text-3xl font-bold">68%</span>
+                                        <span className="text-[10px] uppercase font-bold text-secondary">Preparação</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="col-span-12 lg:col-span-4 bg-primary text-white rounded-2xl p-8 shadow-lg flex flex-col justify-between">
+                                <div>
+                                    <div className="text-xs font-bold uppercase opacity-80 mb-2">Insight de IA</div>
+                                    <div className="text-xl font-bold leading-tight">Utilizadores com o seu perfil costumam fazer a transição 20% mais depressa.</div>
+                                </div>
+                                <button className="mt-6 py-2 px-4 border border-white/30 rounded-lg text-sm bg-white/10">Ver recomendações</button>
+                            </div>
+                        </div>
+
+                        <section className="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-6">
+                            <div className="bg-white border border-outline-variant rounded-2xl p-6 shadow-sm">
+                                <div className="flex items-center gap-3 mb-5">
+                                    <span className="material-symbols-outlined text-primary">verified</span>
+                                    <h2 className="text-xl font-bold">Principais Pontos Fortes</h2>
+                                </div>
+                                <div className="space-y-3">
+                                    {[
+                                        ['Pensamento Estratégico', 'Top 5%'],
+                                        ['Orquestração de Dados', 'Especialista'],
+                                        ['Liderança Transfuncional', 'Elevado']
+                                    ].map(([skill, level]) => (
+                                        <div key={skill} className="flex items-center justify-between rounded-xl bg-primary/5 px-4 py-3">
+                                            <span className="font-medium text-on-surface">{skill}</span>
+                                            <span className="text-xs font-bold text-primary">{level}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="bg-white border border-outline-variant rounded-2xl p-6 shadow-sm">
+                                <div className="flex items-center gap-3 mb-5">
+                                    <span className="material-symbols-outlined text-tertiary">analytics</span>
+                                    <h2 className="text-xl font-bold">Lacunas de Competências</h2>
+                                </div>
+                                <div className="space-y-5">
+                                    {[
+                                        ['Design de Sistemas Técnicos', 'Crítico', 'w-[38%]', 'bg-tertiary'],
+                                        ['Gestão Avançada de P&L', 'Moderado', 'w-[64%]', 'bg-primary']
+                                    ].map(([skill, status, width, color]) => (
+                                        <div key={skill}>
+                                            <div className="mb-2 flex items-center justify-between text-sm">
+                                                <span className="font-medium">{skill}</span>
+                                                <span className={`font-bold ${status === 'Crítico' ? 'text-tertiary' : 'text-secondary'}`}>{status}</span>
+                                            </div>
+                                            <div className="h-1.5 overflow-hidden rounded-full bg-surface-container-high">
+                                                <div className={`h-full rounded-full ${width} ${color}`}></div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </section>
+
+                        <section className="grid grid-cols-1 xl:grid-cols-5 gap-6 mt-6 pb-8">
+                            <div className="xl:col-span-3 bg-white border border-outline-variant rounded-2xl p-6 shadow-sm">
+                                <div className="flex flex-wrap items-start justify-between gap-3 mb-6">
+                                    <div className="flex items-center gap-3">
+                                        <span className="material-symbols-outlined text-primary">school</span>
+                                        <div>
+                                            <h2 className="text-xl font-bold">Percurso de Aprendizagem Estratégico</h2>
+                                            <p className="text-sm text-secondary">Prioridades para a sua próxima evolução.</p>
+                                        </div>
+                                    </div>
+                                    <span className="text-sm font-bold text-secondary">Estimativa: 4,5 meses</span>
+                                </div>
+                                <div className="space-y-3">
+                                    {[
+                                        ['Fase 1', 'Arquitetura de Sistemas para PMs', 'Curso • Reforge'],
+                                        ['Fase 2', 'Modelação Financeira Executiva', 'Certificação • Wharton Online'],
+                                        ['Fase 3', 'Estratégia de Produto com IA', 'Masterclass • MIT Sloan']
+                                    ].map(([phase, title, detail], index) => (
+                                        <button key={phase} onClick={() => navigate('/roadmap')} className="group flex w-full items-center justify-between rounded-xl border border-outline-variant p-4 text-left transition-colors hover:border-primary hover:bg-primary/5">
+                                            <div>
+                                                <span className="text-xs font-bold uppercase text-primary">{phase}</span>
+                                                <div className="mt-1 font-bold group-hover:text-primary">{title}</div>
+                                                <div className="mt-1 text-sm text-secondary">{detail}</div>
+                                            </div>
+                                            <span className="text-3xl font-bold text-surface-container-highest">0{index + 1}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="xl:col-span-2 bg-white border border-outline-variant rounded-2xl p-6 shadow-sm">
+                                <div className="flex items-center justify-between mb-5">
+                                    <div>
+                                        <h2 className="text-xl font-bold">Empresas alinhadas</h2>
+                                        <p className="text-sm text-secondary">Melhores afinidades para si.</p>
+                                    </div>
+                                    <button onClick={() => navigate('/explore')} className="text-sm font-bold text-primary">Ver todas</button>
+                                </div>
+                                <div className="divide-y divide-outline-variant">
+                                    {[
+                                        ['Sonangol', '96%'],
+                                        ['Chevron Angola', '91%'],
+                                        ['TotalEnergies Angola', '87%'],
+                                        ['Endiama', '80%']
+                                    ].map(([company, match]) => (
+                                        <button key={company} onClick={() => navigate('/explore')} className="flex w-full items-center justify-between py-4 text-left first:pt-0 last:pb-0">
+                                            <div>
+                                                <div className="font-bold">{company}</div>
+                                                <div className="text-sm text-secondary">Compatibilidade de perfil</div>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <span className="font-bold text-primary">{match}</span>
+                                                <span className="material-symbols-outlined text-secondary">chevron_right</span>
+                                            </div>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+                    <BottomNav />
+                </div>
+            );
+        };
+
+        const ANGOLA_COMPANIES = [
+            {
+                name: 'Sonangol',
+                match: '96%',
+                initials: 'SO',
+                color: '#02A0DC',
+                logo: 'sonalgol_logo.png',
+                desc: 'Concessionária nacional de petróleo e gás, líder no sector upstream e downstream em Angola.',
+                positions: [
+                    {
+                        title: 'Diretor de Produto Digital',
+                        steps: [
+                            'Licenciatura em Design, HCI ou Sistemas de Informação',
+                            '8+ anos em design de produto, incluindo cargos de liderança',
+                            'Historial a liderar equipas multidisciplinares (design, produto, engenharia)',
+                            'Experiência a definir visão e roadmap de produtos digitais a nível corporativo',
+                            'Forte pensamento sistémico e capacidade de comunicação executiva'
+                        ]
+                    },
+                    {
+                        title: 'Product Designer Sénior',
+                        steps: [
+                            'Licenciatura em Design de Interação, UX/UI ou área afim',
+                            'Portefólio sólido de prototipagem de alta fidelidade',
+                            '5+ anos a desenhar produtos digitais end-to-end',
+                            'Experiência com design systems e investigação de utilizador',
+                            'Colaboração próxima com equipas de engenharia e produto'
+                        ]
+                    }
+                ]
+            },
+            {
+                name: 'Chevron Angola (CABGOC)',
+                match: '91%',
+                initials: 'CV',
+                color: '#0053db',
+                logo: 'chevron_logo.webp',
+                desc: 'Operadora internacional de referência em exploração e produção offshore no Bloco 0, Cabinda.',
+                positions: [
+                    {
+                        title: 'UX Lead - Soluções Digitais',
+                        steps: [
+                            'Formação em Design, Psicologia Cognitiva ou HCI',
+                            'Certificação avançada em UX Research ou Design Thinking',
+                            '6+ anos a liderar iniciativas de experiência do utilizador',
+                            'Experiência a gerir equipas de design distribuídas e multiculturais',
+                            'Historial comprovado a alinhar UX com objetivos de negócio'
+                        ]
+                    },
+                    {
+                        title: 'Product Manager - Plataformas Internas',
+                        steps: [
+                            'Formação em Gestão de Produto, Engenharia ou Design',
+                            'Certificação em Gestão de Produto (Reforge, Pragmatic Institute)',
+                            '5+ anos a gerir produtos digitais em ambiente corporativo',
+                            'Experiência a colaborar com stakeholders técnicos e executivos',
+                            'Capacidade de traduzir necessidades operacionais em soluções digitais'
+                        ]
+                    }
+                ]
+            },
+            {
+                name: 'TotalEnergies Angola',
+                match: '87%',
+                initials: 'TE',
+                color: '#943700',
+                logo: 'totalenergies-logo-1.png',
+                desc: 'Multinacional francesa com forte presença em exploração e produção em águas ultra-profundas.',
+                positions: [
+                    {
+                        title: 'Head of Digital Product',
+                        steps: [
+                            'Formação superior em Design de Produto, Gestão ou Engenharia',
+                            '10+ anos de experiência em produto digital, com passagem por liderança',
+                            'Experiência a gerir portfólios de produto em múltiplas geografias',
+                            'Fluência em português, inglês e idealmente francês',
+                            'Forte capacidade de influência executiva e pensamento estratégico'
+                        ]
+                    },
+                    {
+                        title: 'Designer de Produto Sénior',
+                        steps: [
+                            'Licenciatura em Design de Interação ou UX/UI',
+                            'Portefólio robusto de projetos de prototipagem de alta fidelidade',
+                            '5+ anos de experiência em design de produtos digitais complexos',
+                            'Experiência a conduzir investigação com utilizadores e testes de usabilidade',
+                            'Domínio de ferramentas de design de sistemas (Figma, design tokens)'
+                        ]
+                    }
+                ]
+            },
+            {
+                name: 'Endiama',
+                match: '82%',
+                initials: 'EN',
+                color: '#585f6c',
+                logo: 'endiama_logo.png',
+                desc: 'Empresa nacional de diamantes, responsável pela exploração, produção e comercialização mineira em Angola.',
+                positions: [
+                    {
+                        title: 'Gestor de Produto Digital',
+                        steps: [
+                            'Licenciatura em Gestão de Produto, Design ou Tecnologias de Informação',
+                            '7+ anos em gestão de produtos digitais',
+                            'Experiência a liderar a modernização de sistemas internos e plataformas',
+                            'Competências em priorização de roadmap e métricas de produto',
+                            'Capacidade de trabalhar com equipas técnicas e de negócio'
+                        ]
+                    },
+                    {
+                        title: 'UX/UI Designer Sénior',
+                        steps: [
+                            'Licenciatura em Design Digital, UX/UI ou área afim',
+                            'Portefólio de projetos de alta fidelidade e pensamento sistémico',
+                            '4+ anos de experiência em desenho de interfaces e experiência do utilizador',
+                            'Conhecimento de ferramentas de prototipagem e design systems',
+                            'Experiência a colaborar com equipas de engenharia em ambiente corporativo'
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        const ExplorePage = () => {
+            const [expanded, setExpanded] = useState(null);
+            const toggle = (name) => setExpanded(expanded === name ? null : name);
+
+            return (
+                <div className="bg-[#FAF8FF] min-h-screen pb-24 md:pb-0 md:pl-20 lg:pl-64">
+                    <TopAppBar />
+                    <main className="max-w-7xl mx-auto p-gutter lg:p-12 xl:p-14">
+                        <h1 className="text-3xl font-bold mb-2">Explorador de Empresas</h1>
+                        <p className="text-secondary mb-10 max-w-2xl">Conecte-se com as principais organizações do mercado angolano e descubra o percurso até aos cargos mais cobiçados.</p>
+                        
+                        <div className="flex flex-col md:flex-row gap-4 mb-8">
+                            <div className="flex-1 relative">
+                                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+                                <input className="w-full h-12 pl-12 border border-outline-variant rounded-xl" placeholder="Procurar empresas..." />
+                            </div>
+                            <button className="bg-primary text-white px-8 py-3 rounded-xl font-bold">Filtrar</button>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {ANGOLA_COMPANIES.map(c => (
+                                <div key={c.name} className="bg-white border border-outline-variant rounded-xl p-6 flex flex-col gap-4 shadow-sm hover:shadow-md transition-all">
+                                    <div className="flex justify-between items-start">
+                                        <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-white border border-outline-variant overflow-hidden p-1">
+                                            <img src={c.logo} alt={`Logótipo da ${c.name}`} className="w-full h-full object-contain" />
+                                        </div>
+                                        <span className="text-primary font-bold text-sm bg-primary/10 px-2 py-1 rounded">{c.match} Match</span>
+                                    </div>
+                                    <div className="font-bold text-xl">{c.name}</div>
+                                    <p className="text-secondary text-sm">{c.desc}</p>
+
+                                    <button onClick={() => toggle(c.name)} className="w-full mt-2 py-3 bg-surface-container-low text-on-surface-variant font-bold rounded-lg border border-outline-variant/30 flex items-center justify-center gap-2">
+                                        {expanded === c.name ? 'Ocultar Cargos e Percurso' : 'Ver Cargos Cobiçados e Percurso'}
+                                        <span className="material-symbols-outlined text-lg">{expanded === c.name ? 'expand_less' : 'expand_more'}</span>
+                                    </button>
+
+                                    {expanded === c.name && (
+                                        <div className="space-y-5 pt-2 border-t border-outline-variant">
+                                            {c.positions.map(pos => (
+                                                <div key={pos.title}>
+                                                    <div className="flex items-center gap-2 mb-2">
+                                                        <span className="material-symbols-outlined text-primary text-lg">work</span>
+                                                        <span className="font-bold">{pos.title}</span>
+                                                    </div>
+                                                    <ol className="space-y-1.5 pl-1">
+                                                        {pos.steps.map((step, i) => (
+                                                            <li key={i} className="flex items-start gap-2 text-sm text-secondary">
+                                                                <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 text-primary text-[11px] font-bold flex items-center justify-center">{i + 1}</span>
+                                                                <span>{step}</span>
+                                                            </li>
+                                                        ))}
+                                                    </ol>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </main>
+                    <BottomNav />
+                </div>
+            );
+        };
+
+        const skillCategories = [
+            {
+                category: 'Técnicas',
+                icon: 'code',
+                skills: [
+                    { icon: 'data_object', iconBg: 'bg-blue-100', iconColor: 'text-blue-600', title: 'Arquitetura de Dados', subtitle: 'Infraestrutura Cloud & SQL', badge: 'Prioridade', badgeStyle: 'bg-primary/10 text-primary', level: 70, target: 88, next: 'Orquestração Avançada com Kubernetes' },
+                    { icon: 'monitoring', iconBg: 'bg-sky-100', iconColor: 'text-sky-600', title: 'Análise Estatística', subtitle: 'R, Python, Scikit-learn', level: 45, target: 72, next: 'Modelagem Preditiva com XGBoost' },
+                    { icon: 'terminal', iconBg: 'bg-indigo-100', iconColor: 'text-indigo-600', title: 'Engenharia de Sistemas', subtitle: 'Microserviços & APIs', level: 55, target: 80, next: 'Design de Sistemas Distribuídos' }
+                ]
+            },
+            {
+                category: 'Competências Interpessoais',
+                icon: 'diversity_3',
+                skills: [
+                    { icon: 'groups', iconBg: 'bg-purple-100', iconColor: 'text-purple-600', title: 'Presença Executiva', subtitle: 'Gestão de Stakeholders', badge: 'Crucial', badgeStyle: 'bg-tertiary/10 text-tertiary', level: 85, target: 95, next: 'Influenciar sem Autoridade' },
+                    { icon: 'forum', iconBg: 'bg-pink-100', iconColor: 'text-pink-600', title: 'Comunicação Estratégica', subtitle: 'Storytelling de Dados', level: 62, target: 85, next: 'Apresentações para C-Level' }
+                ]
+            },
+            {
+                category: 'Ferramentas',
+                icon: 'build',
+                skills: [
+                    { icon: 'account_tree', iconBg: 'bg-slate-200', iconColor: 'text-slate-700', title: 'Automação de Workflow', subtitle: 'Linear, Notion, Zapier', level: 60, target: 82, next: 'Fluxo de Integração de API Customizada' },
+                    { icon: 'cloud', iconBg: 'bg-cyan-100', iconColor: 'text-cyan-700', title: 'Infraestrutura Cloud', subtitle: 'AWS, Docker, Terraform', level: 50, target: 78, next: 'Certificação AWS Solutions Architect' }
+                ]
+            },
+            {
+                category: 'Idiomas',
+                icon: 'translate',
+                skills: [
+                    { icon: 'translate', iconBg: 'bg-orange-100', iconColor: 'text-orange-700', title: 'Alemão de Negócios', subtitle: 'Caminho para Certificação C1', level: 30, target: 55, next: 'Módulo de Correspondência Profissional' },
+                    { icon: 'language', iconBg: 'bg-green-100', iconColor: 'text-green-700', title: 'Inglês Corporativo', subtitle: 'Nível C2 — Certificado', level: 96, target: 100, next: 'Manutenção de Fluência Avançada' }
+                ]
+            }
+        ];
+
+        const RoadmapPage = () => {
+            const totalSkills = skillCategories.reduce((acc, c) => acc + c.skills.length, 0);
+            const avgLevel = Math.round(skillCategories.reduce((acc, c) => acc + c.skills.reduce((a, s) => a + s.level, 0), 0) / totalSkills);
+            return (
+                <div className="bg-[#FAF8FF] min-h-screen pb-24 md:pb-0 md:pl-20 lg:pl-64">
+                    <TopAppBar />
+                    <main className="max-w-4xl mx-auto p-gutter lg:p-12 xl:p-14">
+                        <h1 className="text-3xl font-bold mb-2">Portfólio de Competências</h1>
+                        <p className="text-secondary mb-10">Roteiro estratégico para o seu crescimento e domínio profissional.</p>
+
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                            <div className="bg-white p-6 rounded-2xl border border-outline-variant shadow-sm">
+                                <div className="text-[10px] font-bold text-secondary uppercase tracking-wide">Competências</div>
+                                <div className="text-2xl font-bold text-primary">{totalSkills}</div>
+                            </div>
+                            <div className="bg-white p-6 rounded-2xl border border-outline-variant shadow-sm">
+                                <div className="text-[10px] font-bold text-secondary uppercase tracking-wide">Nível Médio</div>
+                                <div className="text-2xl font-bold">{avgLevel}%</div>
+                            </div>
+                            <div className="bg-white p-6 rounded-2xl border border-outline-variant shadow-sm">
+                                <div className="text-[10px] font-bold text-secondary uppercase tracking-wide">Prioridade</div>
+                                <div className="text-sm font-bold leading-tight mt-1">Arquitetura de Dados</div>
+                            </div>
+                            <div className="bg-white p-6 rounded-2xl border border-outline-variant shadow-sm">
+                                <div className="text-[10px] font-bold text-secondary uppercase tracking-wide">Tempo Estimado</div>
+                                <div className="text-2xl font-bold">5 Meses</div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-6">
+                            {skillCategories.map(group => (
+                                <section key={group.category} className="bg-white border border-outline-variant rounded-2xl p-6 shadow-sm">
+                                    <div className="flex items-center gap-3 mb-5">
+                                        <span className="material-symbols-outlined text-primary">{group.icon}</span>
+                                        <h2 className="text-xl font-bold">{group.category}</h2>
+                                    </div>
+                                    <div className="divide-y divide-outline-variant">
+                                        {group.skills.map(s => (
+                                            <div key={s.title} className="py-6 first:pt-0 last:pb-0">
+                                                <div className="flex items-start gap-4 mb-4">
+                                                    <div className={`w-11 h-11 shrink-0 rounded-xl flex items-center justify-center ${s.iconBg}`}>
+                                                        <span className={`material-symbols-outlined ${s.iconColor}`}>{s.icon}</span>
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <div className="flex items-start justify-between gap-2">
+                                                            <div className="font-bold text-lg leading-tight">{s.title}</div>
+                                                            {s.badge && (
+                                                                <span className={`text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap ${s.badgeStyle}`}>{s.badge}</span>
+                                                            )}
+                                                        </div>
+                                                        <div className="text-secondary text-sm">{s.subtitle}</div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between items-center mb-2">
+                                                    <span className="text-xs font-bold text-secondary">Proficiência Atual</span>
+                                                    <span className="text-xs font-bold text-primary">{s.level}%</span>
+                                                </div>
+                                                <div className="relative w-full bg-surface-container-high h-2 rounded-full mb-4">
+                                                    <div className="bg-primary h-full rounded-full" style={{ width: `${s.level}%` }}></div>
+                                                    <div className="absolute top-1/2 -translate-y-1/2 w-1 h-3 rounded-full bg-orange-400" style={{ left: `calc(${s.target}% - 2px)` }}></div>
+                                                </div>
+                                                <div className="bg-primary/5 p-3 rounded-xl text-xs flex items-start gap-2">
+                                                    <span className="material-symbols-outlined text-[16px] text-primary">workspace_premium</span>
+                                                    <span><span className="font-bold">Próximo:</span> {s.next}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </section>
+                            ))}
+                        </div>
+                    </main>
+                    <BottomNav />
+                </div>
+            );
+        };
+
+        const EvolutionPage = () => {
+            const learningPath = "M10,95 C40,102 70,108 95,95 C125,78 140,55 175,60 C205,65 215,42 250,38 C280,34 300,58 325,52 C355,46 365,20 400,26 C425,30 450,8 470,12";
+            const areaPath = learningPath + " L470,130 L10,130 Z";
+            const acquiredSkills = [
+                { icon: 'monitoring', title: 'Previsão Estratégica', subtitle: 'Nível Especialista • Ago 2023' },
+                { icon: 'groups', title: 'Gestão de Stakeholders', subtitle: 'Avançado • Jul 2023' },
+                { icon: 'code', title: 'Python para Dados', subtitle: 'Certificado • Jun 2023' }
+            ];
+            const credentials = [
+                { icon: 'workspace_premium', title: 'AWS Certified Solutions', subtitle: 'Expira em Out 2025' },
+                { icon: 'military_tech', title: 'HBS Leadership Lab', subtitle: 'Certificado Verificado' }
+            ];
+            const history = [
+                { period: 'Q3 2023 - ATUAL', title: 'Consultor Estratégico Sénior', desc: 'Focado em eficiência operacional e roteiros de implementação de IA para clientes Fortune 500.', active: true, projects: '14' },
+                { period: '2021 - 2023', title: 'Líder Estratégico Associado', desc: 'Gestão de equipas multifuncionais para estratégias de entrada em mercados regionais.', active: false }
+            ];
+            return (
+                <div className="bg-[#FAF8FF] min-h-screen pb-24 md:pb-0 md:pl-20 lg:pl-64">
+                    <TopAppBar />
+                    <main className="max-w-4xl mx-auto p-gutter lg:p-12 xl:p-14 space-y-6">
+                        <div>
+                            <h1 className="text-3xl font-bold mb-2">Painel de Evolução</h1>
+                            <p className="text-secondary mb-4">Acompanhe a velocidade do seu desenvolvimento profissional e a preparação para o mercado de trabalho através de informações baseadas em IA e marcos verificados.</p>
+                        </div>
+
+                        <div className="bg-white border border-outline-variant rounded-2xl p-6 shadow-sm">
+                            <div className="flex items-start justify-between gap-3 mb-1">
+                                <div>
+                                    <h2 className="text-xl font-bold">Velocidade de Aprendizagem</h2>
+                                    <p className="text-secondary text-sm">Horas de foco em domínios de carreira</p>
+                                </div>
+                                <span className="shrink-0 flex items-center gap-1.5 bg-primary/10 text-primary text-[11px] font-bold px-3 py-1.5 rounded-full">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                    Alto Impulso
+                                </span>
+                            </div>
+                            <svg viewBox="0 0 480 130" className="w-full h-32 mt-4">
+                                <defs>
+                                    <linearGradient id="learningGradient" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stopColor="#02A0DC" stopOpacity="0.25" />
+                                        <stop offset="100%" stopColor="#02A0DC" stopOpacity="0" />
+                                    </linearGradient>
+                                </defs>
+                                <path d={areaPath} fill="url(#learningGradient)" stroke="none" />
+                                <path d={learningPath} fill="none" stroke="#02A0DC" strokeWidth="2.5" strokeLinecap="round" />
+                                <circle cx="175" cy="60" r="5" fill="#02A0DC" stroke="white" strokeWidth="2" />
+                            </svg>
+                            <div className="grid grid-cols-7 text-center text-[11px] text-secondary mt-1">
+                                <span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span><span>Dom</span>
+                            </div>
+                            <div className="border-t border-outline-variant mt-5 pt-4 flex gap-10">
+                                <div>
+                                    <div className="text-[10px] font-bold text-secondary uppercase tracking-wide">Total de Horas</div>
+                                    <div className="text-2xl font-bold">128.5<span className="text-sm font-medium text-secondary"> hrs</span></div>
+                                </div>
+                                <div>
+                                    <div className="text-[10px] font-bold text-secondary uppercase tracking-wide">Alteração Semanal</div>
+                                    <div className="text-2xl font-bold text-primary">+12%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-primary rounded-2xl p-8 text-white text-center shadow-sm">
+                            <h2 className="text-xl font-bold mb-1">Preparação para o Mercado</h2>
+                            <p className="text-white/80 text-sm mb-6">Próximo Salto: Diretor de Produto</p>
+                            <div className="relative w-36 h-36 mx-auto mb-6">
+                                <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="8" />
+                                    <circle cx="50" cy="50" r="44" fill="none" stroke="white" strokeWidth="8" strokeDasharray="276.5" strokeDashoffset={276.5 - 276.5 * 0.75} strokeLinecap="round" />
+                                </svg>
+                                <div className="absolute inset-0 flex items-center justify-center text-3xl font-bold">75%</div>
+                            </div>
+                            <button className="w-full bg-white text-primary font-bold py-3 rounded-xl hover:bg-white/90 transition-colors">Ver Análise de Lacunas</button>
+                        </div>
+
+                        <div className="bg-white border border-outline-variant rounded-2xl p-6 shadow-sm">
+                            <div className="flex items-center gap-3 mb-5">
+                                <span className="material-symbols-outlined text-primary">verified</span>
+                                <h2 className="text-xl font-bold">Competências Adquiridas</h2>
+                            </div>
+                            <div className="space-y-5">
+                                {acquiredSkills.map(item => (
+                                    <div key={item.title} className="flex items-center gap-4">
+                                        <div className="w-11 h-11 shrink-0 rounded-xl bg-surface-container-low flex items-center justify-center">
+                                            <span className="material-symbols-outlined text-on-surface-variant">{item.icon}</span>
+                                        </div>
+                                        <div>
+                                            <div className="font-bold">{item.title}</div>
+                                            <div className="text-secondary text-sm">{item.subtitle}</div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="bg-white border border-outline-variant rounded-2xl p-6 shadow-sm">
+                            <div className="flex items-start justify-between gap-3 mb-6">
+                                <div className="flex items-center gap-3">
+                                    <span className="material-symbols-outlined text-primary">workspace_premium</span>
+                                    <div>
+                                        <h2 className="text-xl font-bold">Credenciais Verificadas</h2>
+                                        <p className="text-secondary text-sm">3 Certificações Ativas</p>
+                                    </div>
+                                </div>
+                                <button className="text-primary text-sm font-bold whitespace-nowrap hover:underline">Gerir Todas</button>
+                            </div>
+                            <div className="grid grid-cols-3 gap-4">
+                                {credentials.map(cred => (
+                                    <div key={cred.title} className="flex flex-col items-center text-center">
+                                        <div className="w-16 h-16 rounded-xl bg-surface-container-low border border-outline-variant flex items-center justify-center mb-3">
+                                            <span className="material-symbols-outlined text-primary">{cred.icon}</span>
+                                        </div>
+                                        <div className="font-bold text-xs leading-tight">{cred.title}</div>
+                                        <div className="text-secondary text-[11px] mt-0.5">{cred.subtitle}</div>
+                                    </div>
+                                ))}
+                                <button className="flex flex-col items-center text-center group">
+                                    <div className="w-16 h-16 rounded-xl border-2 border-dashed border-outline-variant flex items-center justify-center mb-3 group-hover:border-primary transition-colors">
+                                        <span className="material-symbols-outlined text-secondary group-hover:text-primary">add</span>
+                                    </div>
+                                    <div className="font-bold text-xs text-primary leading-tight">Adicionar Credenciais</div>
+                                    <div className="text-secondary text-[11px] mt-0.5">Sincronizar LinkedIn ou carregar PDF</div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div className="flex items-center gap-3 mb-5">
+                                <span className="material-symbols-outlined text-primary">history</span>
+                                <h2 className="text-xl font-bold">Contexto Histórico</h2>
+                            </div>
+                            <div className="relative pl-8 border-l-2 border-outline-variant space-y-8 ml-2">
+                                {history.map((item, idx) => (
+                                    <div key={idx} className="relative">
+                                        <div className={`absolute -left-[41px] top-1 w-4 h-4 rounded-full border-2 ${item.active ? 'bg-primary border-primary' : 'bg-white border-outline-variant'}`}></div>
+                                        <div className={`rounded-xl p-5 ${item.active ? 'bg-primary/5 border border-primary/20' : ''}`}>
+                                            <div className="flex items-start justify-between gap-3 mb-1">
+                                                <span className="text-[11px] font-bold text-primary uppercase tracking-wide">{item.period}</span>
+                                                {item.projects && (
+                                                    <div className="shrink-0 bg-white border border-outline-variant rounded-lg px-3 py-1.5 text-center">
+                                                        <div className="text-sm font-bold leading-none">{item.projects}</div>
+                                                        <div className="text-[9px] font-bold text-secondary tracking-wide">PROJETOS</div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className="font-bold text-lg mb-1">{item.title}</div>
+                                            <p className="text-secondary text-sm">{item.desc}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </main>
+                    <BottomNav />
+                </div>
+            );
+        };
+
+        const ProfilePage = () => {
+            const navigate = useNavigate();
+            const profileGroups = [
+                {
+                    title: 'Percurso academico',
+                    items: [
+                        ['school', 'bg-sky-50 text-primary', 'Universidade Agostinho Neto', 'Licenciatura em Design de Produto • 2016'],
+                        ['auto_stories', 'bg-indigo-50 text-indigo-600', 'Google UX Design Certificate', 'Especializacao em UX/UI • 2021']
+                    ]
+                },
+                {
+                    title: 'Experiencia profissional',
+                    items: [
+                        ['business_center', 'bg-orange-50 text-orange-700', 'Senior Product Designer', 'Fintech Hub • 3 anos'],
+                        ['work_history', 'bg-amber-50 text-amber-700', 'Product Designer', 'Nexus Systems • 4 anos']
+                    ]
+                },
+                {
+                    title: 'Competencias e credenciais',
+                    items: [
+                        ['psychology', 'bg-violet-50 text-violet-600', 'Competencias principais', 'Pensamento estrategico, dados e lideranca transfuncional', '/roadmap'],
+                        ['workspace_premium', 'bg-emerald-50 text-emerald-600', 'Credenciais verificadas', '3 certificacoes ativas', '/evolution'],
+                        ['language', 'bg-cyan-50 text-cyan-600', 'Idiomas', 'Portugues nativo • Ingles avançado (C1/C2)']
+                    ]
+                }
+            ];
+
+            return (
+                <div className="bg-[#FAF8FF] min-h-screen pb-24 md:pb-0 md:pl-20 lg:pl-64">
+                    <TopAppBar />
+                    <main className="max-w-xl mx-auto p-gutter py-10 lg:py-12">
+                        <section className="mb-10 text-center">
+                            <div className="relative mx-auto mb-4 h-28 w-28">
+                                <div className="h-full w-full overflow-hidden rounded-full border-4 border-white shadow-md ring-1 ring-outline-variant">
+                                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy3xN6-nQY4eU8cPKoEd6SUSklfyMrg0gTnnRevdMNySfBYwvLEFM4TbVGMHxn6bPwH3grCaVXq-t-rsvnXK4cyH39hHYJX5rzo94j_G11qar_bwu64zSy5cEid6DEPHPwmkCzvbuxN8HtD-FK5iFMRPYqhKkehCVwuNy2t7CbKcFGo9gMpe4zZXn_j6WG_O4wp4_2U5dTi1ssfHuNoq5NXnMDkKIXGqGRr6My9CEWtKiSDG1Er-4e" alt="Alex Ferreira" className="h-full w-full object-cover" />
+                                </div>
+                                <button aria-label="Editar fotografia de perfil" className="absolute -bottom-1 -right-1 flex h-9 w-9 items-center justify-center rounded-full border-2 border-white bg-primary text-white shadow-sm hover:brightness-110">
+                                    <span className="material-symbols-outlined text-lg">edit</span>
+                                </button>
+                            </div>
+                            <h1 className="text-3xl font-bold text-on-surface">Alex Ferreira</h1>
+                            <p className="mt-1 text-secondary">alex.ferreira@salo.co.ao</p>
+                            <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-1.5 text-sm font-bold text-white"><span className="material-symbols-outlined text-base">work</span> Senior Product Designer</span>
+                        </section>
+
+                        <div className="space-y-9">
+                            {profileGroups.map(group => (
+                                <section key={group.title}>
+                                    <h2 className="mb-3 pl-1 text-sm font-bold uppercase tracking-widest text-secondary">{group.title}</h2>
+                                    <div className="overflow-hidden rounded-2xl border border-outline-variant bg-white shadow-sm divide-y divide-outline-variant">
+                                        {group.items.map(([icon, iconClass, title, detail, route]) => (
+                                            <button key={title} onClick={() => route && navigate(route)} className="flex w-full items-center gap-4 px-4 py-4 text-left transition-colors hover:bg-primary/5">
+                                                <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${iconClass}`}><span className="material-symbols-outlined">{icon}</span></span>
+                                                <span className="min-w-0 flex-1"><span className="block font-bold text-on-surface">{title}</span><span className="mt-0.5 block text-sm text-secondary">{detail}</span></span>
+                                                <span className="material-symbols-outlined shrink-0 text-outline">chevron_right</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </section>
+                            ))}
+
+                            <button onClick={() => navigate('/login')} className="flex w-full items-center gap-4 rounded-2xl border border-outline-variant bg-white px-4 py-4 text-left text-error shadow-sm transition-colors hover:bg-red-50">
+                                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50"><span className="material-symbols-outlined">logout</span></span>
+                                <span className="flex-1 font-bold">Sair da conta</span>
+                                <span className="material-symbols-outlined text-outline">chevron_right</span>
+                            </button>
+                        </div>
+                    </main>
+                    <main className="hidden">
+                        <div className="flex items-center gap-6 mb-12">
+                            <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-md">
+                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy3xN6-nQY4eU8cPKoEd6SUSklfyMrg0gTnnRevdMNySfBYwvLEFM4TbVGMHxn6bPwH3grCaVXq-t-rsvnXK4cyH39hHYJX5rzo94j_G11qar_bwu64zSy5cEid6DEPHPwmkCzvbuxN8HtD-FK5iFMRPYqhKkehCVwuNy2t7CbKcFGo9gMpe4zZXn_j6WG_O4wp4_2U5dTi1ssfHuNoq5NXnMDkKIXGqGRr6My9CEWtKiSDG1Er-4e" className="w-full h-full object-cover" />
+                            </div>
+                            <div>
+                                <h1 className="text-3xl font-bold">Alex Ferreira</h1>
+                                <p className="text-secondary">Senior Product Designer @ Fintech Hub</p>
+                            </div>
+                        </div>
+
+                        <div className="space-y-8">
+                            <section>
+                                <h2 className="text-sm font-bold text-secondary uppercase mb-4 tracking-widest">Resumo de Carreira</h2>
+                                <div className="bg-white border border-outline-variant rounded-xl p-6 shadow-sm flex items-center justify-between">
+                                    <div>
+                                        <div className="font-bold">Ver Portfólio de Competências</div>
+                                        <div className="text-secondary text-sm">Consulte o seu progresso detalhado na aba Análise.</div>
+                                    </div>
+                                    <Link to="/roadmap" className="shrink-0 p-2 rounded-full hover:bg-surface-container-highest transition-colors">
+                                        <span className="material-symbols-outlined text-primary">arrow_forward</span>
+                                    </Link>
+                                </div>
+                            </section>
+                        </div>
+                    </main>
+                    <BottomNav />
+                </div>
+            );
+        };
+
+        const App = () => {
+            return (
+                <MemoryRouter>
+                    <Routes>
+                        <Route path="/" element={<LandingPage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/onboarding/1" element={<OnboardingStep1 />} />
+                        <Route path="/onboarding/2" element={<OnboardingStep2 />} />
+                        <Route path="/onboarding/3" element={<OnboardingStep3 />} />
+                        <Route path="/onboarding/4" element={<OnboardingStep4 />} />
+                        <Route path="/onboarding/5" element={<OnboardingStep5 />} />
+                        <Route path="/onboarding/6" element={<OnboardingStep6 />} />
+                        <Route path="/onboarding/7" element={<OnboardingFinal />} />
+                        <Route path="/dashboard" element={<DashboardPage />} />
+                        <Route path="/explore" element={<ExplorePage />} />
+                        <Route path="/roadmap" element={<RoadmapPage />} />
+                        <Route path="/evolution" element={<EvolutionPage />} />
+                        <Route path="/profile" element={<ProfilePage />} />
+                    </Routes>
+                </MemoryRouter>
+            );
+        };
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
