@@ -18,7 +18,7 @@
     <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
     <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
     <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
 
     <script id="tailwind-config">
         tailwind.config = {
@@ -140,7 +140,7 @@
                 <header className="bg-surface sticky top-0 z-50 border-b border-outline-variant w-full h-16 lg:h-[72px] flex justify-between items-center px-gutter md:px-8 lg:px-12">
                     <div className="flex items-center gap-4">
                         {step ? (
-                            <img src="SALO-LOGO.jpeg" a lt="Salo" className="h-9 w-auto" />
+                            <img src="SALO-LOGO.jpeg" alt="Salo" className="h-9 w-auto" />
                         ) : (
                             <img src="SALO-LOGO.jpeg" alt="Salo" className="h-9 w-auto cursor-pointer" onClick={() => navigate('/')} />
                         )}
@@ -174,6 +174,10 @@
                     <Link to="/explore" className={`flex flex-col items-center justify-center transition-all lg:w-full lg:flex-row lg:justify-start lg:gap-3 lg:rounded-xl lg:px-4 lg:py-3 ${isActive('/explore') ? 'bg-primary/10 text-primary' : 'text-secondary'} hover:bg-primary/5 hover:text-primary active:scale-90`}>
                         <span className="material-symbols-outlined" style={{fontVariationSettings: isActive('/explore') ? "'FILL' 1" : ""}}>search</span>
                         <span className="text-[11px] lg:text-sm lg:font-medium">Explorar</span>
+                    </Link>
+                    <Link to="/interview" className={`flex flex-col items-center justify-center transition-all lg:w-full lg:flex-row lg:justify-start lg:gap-3 lg:rounded-xl lg:px-4 lg:py-3 ${(isActive('/interview') || isActive('/ai')) ? 'bg-primary/10 text-primary' : 'text-secondary'} hover:bg-primary/5 hover:text-primary active:scale-90`}>
+                        <span className="material-symbols-outlined" style={{fontVariationSettings: (isActive('/interview') || isActive('/ai')) ? "'FILL' 1" : ""}}>graphic_eq</span>
+                        <span className="text-[11px] lg:text-sm lg:font-medium">AI</span>
                     </Link>
                     <Link to="/roadmap" className={`flex flex-col items-center justify-center transition-all lg:w-full lg:flex-row lg:justify-start lg:gap-3 lg:rounded-xl lg:px-4 lg:py-3 ${isActive('/roadmap') ? 'bg-primary/10 text-primary' : 'text-secondary'} hover:bg-primary/5 hover:text-primary active:scale-90`}>
                         <span className="material-symbols-outlined" style={{fontVariationSettings: isActive('/roadmap') ? "'FILL' 1" : ""}}>analytics</span>
@@ -1266,6 +1270,347 @@
             );
         };
 
+        const InterviewAIPage = () => {
+            const navigate = useNavigate();
+            const [responseMode, setResponseMode] = useState('voice');
+            const [isRecording, setIsRecording] = useState(true);
+            const [timerSeconds, setTimerSeconds] = useState(162);
+            const [currentQuestionIndex, setCurrentQuestionIndex] = useState(3);
+            const [textResponse, setTextResponse] = useState('');
+            const [transcriptText, setTranscriptText] = useState('"Abordei a ambiguidade começando por estabelecer.."');
+
+            const questions = [
+                {
+                    id: 1,
+                    num: 'PERGUNTA 01 / 10',
+                    question: 'Como descreve o seu processo de tomada de decisão quando não dispõe de todos os dados necessários?',
+                    guide: 'Foque-se na gestão de risco, auscultação de partes interessadas e iteração rápida.'
+                },
+                {
+                    id: 2,
+                    num: 'PERGUNTA 02 / 10',
+                    question: 'Conte-me sobre um momento em que teve de convencer uma equipa a mudar drasticamente a direção de um projeto.',
+                    guide: 'Utilize a estrutura STAR. Detalhe como alinhou a visão da equipa e comunicou os motivos estratégicos.'
+                },
+                {
+                    id: 3,
+                    num: 'PERGUNTA 03 / 10',
+                    question: 'Como lida com conflitos de prioridade entre os objetivos de produto e restrições técnicas da engenharia?',
+                    guide: 'Destaque a capacidade de negociação, empatia técnica e foco nos objetivos globais do negócio.'
+                },
+                {
+                    id: 4,
+                    num: 'PERGUNTA 04 / 10',
+                    question: '"Como lidaria com uma situação em que tivesse de liderar uma equipa durante um período de significativa ambiguidade estratégica?"',
+                    guide: 'Foque-se em estruturas como STAR ou CAR. Seja específico sobre as ações de liderança que tomou para reduzir a incerteza.'
+                },
+                {
+                    id: 5,
+                    num: 'PERGUNTA 05 / 10',
+                    question: 'Como mede o impacto real das suas decisões de liderança no desempenho da organização?',
+                    guide: 'Mencione métricas quantitativas e qualitativas, como retenção de talento e velocidade de entrega.'
+                }
+            ];
+
+            const currentQ = questions[currentQuestionIndex] || questions[3];
+
+            const formatTime = (secs) => {
+                const m = Math.floor(secs / 60);
+                const s = secs % 60;
+                return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            };
+
+            useEffect(() => {
+                let interval = null;
+                if (isRecording && timerSeconds > 0) {
+                    interval = setInterval(() => {
+                        setTimerSeconds(prev => (prev > 0 ? prev - 1 : 0));
+                    }, 1000);
+                }
+                return () => clearInterval(interval);
+            }, [isRecording, timerSeconds]);
+
+            const toggleRecording = () => {
+                setIsRecording(!isRecording);
+            };
+
+            return (
+                <div className="bg-[#FAF8FF] min-h-screen pb-24 md:pb-12 md:pl-20 lg:pl-64">
+                    <header className="bg-surface sticky top-0 z-40 border-b border-outline-variant w-full h-16 lg:h-[72px] flex justify-between items-center px-gutter md:px-8 lg:px-12">
+                        <div className="flex items-center gap-3">
+                            <button onClick={() => navigate('/dashboard')} className="p-2 hover:bg-surface-container-highest rounded-full transition-colors">
+                                <span className="material-symbols-outlined text-on-surface-variant">arrow_back</span>
+                            </button>
+                            <img src="SALO-LOGO.jpeg" alt="Salo" className="h-8 w-auto cursor-pointer" onClick={() => navigate('/dashboard')} />
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <button aria-label="Notificações" className="relative p-2 hover:bg-surface-container-highest rounded-full transition-colors">
+                                <span className="material-symbols-outlined text-on-surface-variant">notifications</span>
+                                <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-primary ring-2 ring-surface"></span>
+                            </button>
+                        </div>
+                    </header>
+
+                    <main className="max-w-2xl mx-auto p-4 md:p-6 lg:p-8 space-y-5">
+                        
+                        {/* Question Card */}
+                        <div className="bg-white border border-outline-variant/70 rounded-3xl p-6 shadow-sm">
+                            <div className="flex items-center justify-between mb-4">
+                                <span className="bg-[#02A0DC] text-white px-3.5 py-1 rounded-full text-[11px] font-extrabold tracking-wider uppercase shadow-sm">
+                                    {currentQ.num}
+                                </span>
+                                <div className="flex items-center gap-1.5 text-slate-400 font-semibold text-xs md:text-sm">
+                                    <span className="material-symbols-outlined text-base text-slate-400">schedule</span>
+                                    <span>{formatTime(timerSeconds)}</span>
+                                </div>
+                            </div>
+
+                            <h1 className="text-xl md:text-2xl font-bold text-slate-900 leading-snug my-3">
+                                {currentQ.question}
+                            </h1>
+
+                            <p className="text-slate-500 text-xs md:text-sm leading-relaxed border-t border-slate-100 pt-3 mt-3">
+                                {currentQ.guide}
+                            </p>
+
+                            <div className="flex items-center justify-between mt-4 pt-2 text-xs font-semibold text-primary">
+                                <button 
+                                    disabled={currentQuestionIndex === 0}
+                                    onClick={() => setCurrentQuestionIndex(prev => Math.max(0, prev - 1))}
+                                    className={`flex items-center gap-1 ${currentQuestionIndex === 0 ? 'opacity-40 cursor-not-allowed' : 'hover:underline'}`}
+                                >
+                                    <span className="material-symbols-outlined text-sm">chevron_left</span> Anterior
+                                </button>
+                                <span className="text-slate-400">{currentQuestionIndex + 1} de {questions.length}</span>
+                                <button 
+                                    disabled={currentQuestionIndex === questions.length - 1}
+                                    onClick={() => setCurrentQuestionIndex(prev => Math.min(questions.length - 1, prev + 1))}
+                                    className={`flex items-center gap-1 ${currentQuestionIndex === questions.length - 1 ? 'opacity-40 cursor-not-allowed' : 'hover:underline'}`}
+                                >
+                                    Próxima <span className="material-symbols-outlined text-sm">chevron_right</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Response Mode Selector & Recording Card */}
+                        <div className="bg-white border border-outline-variant/70 rounded-3xl p-6 shadow-sm space-y-5">
+                            <div className="grid grid-cols-2 p-1 bg-slate-100/80 rounded-2xl border border-slate-200/60">
+                                <button
+                                    onClick={() => setResponseMode('voice')}
+                                    className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs md:text-sm font-bold transition-all ${
+                                        responseMode === 'voice'
+                                            ? 'bg-white text-[#02A0DC] shadow-sm'
+                                            : 'text-slate-500 hover:text-slate-800'
+                                    }`}
+                                >
+                                    <span className="material-symbols-outlined text-base">graphic_eq</span>
+                                    <span>Resposta por Voz</span>
+                                </button>
+
+                                <button
+                                    onClick={() => setResponseMode('text')}
+                                    className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs md:text-sm font-bold transition-all ${
+                                        responseMode === 'text'
+                                            ? 'bg-white text-[#02A0DC] shadow-sm'
+                                            : 'text-slate-500 hover:text-slate-800'
+                                    }`}
+                                >
+                                    <span className="material-symbols-outlined text-base">short_text</span>
+                                    <span>Resposta por Texto</span>
+                                </button>
+                            </div>
+
+                            {responseMode === 'voice' ? (
+                                <div className="bg-gradient-to-b from-sky-50/40 via-white to-slate-50/60 border border-slate-200/60 rounded-2xl p-6 text-center flex flex-col items-center justify-center min-h-[220px] relative overflow-hidden">
+                                    <div className="relative my-4">
+                                        {isRecording && (
+                                            <>
+                                                <div className="absolute -inset-3 rounded-full bg-[#02A0DC]/20 animate-ping"></div>
+                                                <div className="absolute -inset-6 rounded-full bg-[#02A0DC]/10 animate-pulse"></div>
+                                            </>
+                                        )}
+                                        <button
+                                            onClick={toggleRecording}
+                                            className={`relative z-10 w-20 h-20 rounded-full flex items-center justify-center text-white transition-transform active:scale-95 shadow-lg ${
+                                                isRecording ? 'bg-[#02A0DC] shadow-sky-500/30' : 'bg-slate-700 shadow-slate-900/20'
+                                            }`}
+                                        >
+                                            <span className="material-symbols-outlined text-3xl">
+                                                {isRecording ? 'mic' : 'mic_off'}
+                                            </span>
+                                        </button>
+                                    </div>
+
+                                    <div className="text-base font-bold text-slate-800 mb-1">
+                                        {isRecording ? 'A ouvir...' : 'Pausado'}
+                                    </div>
+
+                                    <p className="text-slate-500 text-xs md:text-sm italic max-w-sm mx-auto leading-snug">
+                                        {transcriptText}
+                                    </p>
+
+                                    <div className="flex items-center gap-3 mt-5">
+                                        <button
+                                            onClick={toggleRecording}
+                                            className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-xs"
+                                        >
+                                            {isRecording ? 'Pausar' : 'Retomar'}
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                setIsRecording(false);
+                                                alert('Resposta gravada e analisada com sucesso!');
+                                            }}
+                                            className="px-5 py-2 bg-[#02A0DC] text-white rounded-xl text-xs font-bold hover:bg-[#0290c8] transition-colors shadow-sm"
+                                        >
+                                            Concluir Resposta
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="space-y-3">
+                                    <textarea
+                                        rows={5}
+                                        value={textResponse}
+                                        onChange={(e) => setTextResponse(e.target.value)}
+                                        placeholder="Escreva aqui a sua resposta estruturada (Contexto, Tarefa, Ação, Resultado)..."
+                                        className="w-full p-4 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#02A0DC] focus:border-transparent"
+                                    />
+                                    <div className="flex items-center justify-between text-xs text-slate-400">
+                                        <span>{textResponse.length} caracteres</span>
+                                        <button 
+                                            onClick={() => {
+                                                if (textResponse.trim()) {
+                                                    alert('Resposta submetida para análise da IA!');
+                                                }
+                                            }}
+                                            className="px-5 py-2 bg-[#02A0DC] text-white rounded-xl font-bold hover:bg-[#0290c8] transition-colors shadow-sm"
+                                        >
+                                            Enviar Resposta
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Card: PREPARAÇÃO ATUAL */}
+                        <div className="bg-white border border-outline-variant/70 rounded-3xl p-6 shadow-sm space-y-4">
+                            <h2 className="text-xs font-extrabold tracking-widest text-slate-400 uppercase">
+                                PREPARAÇÃO ATUAL
+                            </h2>
+
+                            <div className="flex flex-col md:flex-row items-center gap-6 pt-2">
+                                <div className="relative w-36 h-36 shrink-0 flex items-center justify-center">
+                                    <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="40" fill="none" stroke="#E2E8F0" strokeWidth="10" />
+                                        <circle
+                                            cx="50"
+                                            cy="50"
+                                            r="40"
+                                            fill="none"
+                                            stroke="#02A0DC"
+                                            strokeWidth="10"
+                                            strokeDasharray="251.2"
+                                            strokeDashoffset="62.8"
+                                            strokeLinecap="round"
+                                        />
+                                    </svg>
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                                        <span className="text-3xl font-extrabold text-slate-900 tracking-tight">75%</span>
+                                        <span className="text-[10px] font-bold text-slate-400 tracking-wider uppercase mt-0.5">PREPARADO</span>
+                                    </div>
+                                </div>
+
+                                <p className="text-xs md:text-sm text-slate-600 leading-relaxed text-center md:text-left">
+                                    Está a ter um bom desempenho em <span className="text-[#02A0DC] font-bold">Liderança</span> mas precisa de dados mais concretos em <span className="text-amber-600 font-bold">Resolução de Conflitos</span>.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Card: Insights de IA em Tempo Real */}
+                        <div className="bg-white border border-outline-variant/70 rounded-3xl p-6 shadow-sm space-y-4">
+                            <div className="flex items-center gap-2">
+                                <h2 className="text-base md:text-lg font-bold text-slate-900">
+                                    Insights de IA em Tempo Real
+                                </h2>
+                                <span className="h-2.5 w-2.5 rounded-full bg-[#02A0DC] animate-pulse inline-block"></span>
+                            </div>
+
+                            <div className="space-y-3.5 pt-1">
+                                <div className="flex items-start gap-3.5 p-3 rounded-2xl bg-sky-50/50 border border-sky-100">
+                                    <div className="p-2 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                                        <span className="material-symbols-outlined text-lg">bolt</span>
+                                    </div>
+                                    <div>
+                                        <div className="font-bold text-slate-900 text-xs md:text-sm">Aviso de Ritmo</div>
+                                        <p className="text-slate-500 text-xs leading-relaxed mt-0.5">
+                                            A falar ligeiramente depressa. Tente incorporar uma pausa de 2 segundos após os pontos-chave.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start gap-3.5 p-3 rounded-2xl bg-slate-50/70 border border-slate-100">
+                                    <div className="p-2 bg-slate-200/70 text-slate-700 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                                        <span className="material-symbols-outlined text-lg">check_circle</span>
+                                    </div>
+                                    <div>
+                                        <div className="font-bold text-slate-900 text-xs md:text-sm">Excelente Uso de Palavras-chave</div>
+                                        <p className="text-slate-500 text-xs leading-relaxed mt-0.5">
+                                            Ótimo uso de "alinhamento funcional" e "mapeamento de KPI".
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start gap-3.5 p-3 rounded-2xl bg-amber-50/50 border border-amber-100">
+                                    <div className="p-2 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                                        <span className="material-symbols-outlined text-lg">lightbulb</span>
+                                    </div>
+                                    <div>
+                                        <div className="font-bold text-slate-900 text-xs md:text-sm">Oportunidade</div>
+                                        <p className="text-slate-500 text-xs leading-relaxed mt-0.5">
+                                            Mencione um orçamento ou número de funcionários específico para demonstrar escala.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Card: COMPARAÇÃO COM PARES */}
+                        <div className="bg-white border border-outline-variant/70 rounded-3xl p-6 shadow-sm space-y-4">
+                            <h2 className="text-xs font-extrabold tracking-widest text-slate-400 uppercase">
+                                COMPARAÇÃO COM PARES
+                            </h2>
+
+                            <div className="space-y-4 pt-1">
+                                <div>
+                                    <div className="flex items-center justify-between text-xs font-bold mb-1.5">
+                                        <span className="text-slate-700">A sua Pontuação</span>
+                                        <span className="text-[#02A0DC]">Top 15%</span>
+                                    </div>
+                                    <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                                        <div className="bg-[#02A0DC] h-full rounded-full w-[85%] transition-all duration-500"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div className="flex items-center justify-between text-xs font-bold mb-1.5">
+                                        <span className="text-slate-700">Candidato Médio</span>
+                                        <span className="text-slate-500">Percentil 52</span>
+                                    </div>
+                                    <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                                        <div className="bg-slate-400 h-full rounded-full w-[52%] transition-all duration-500"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </main>
+
+                    <BottomNav />
+                </div>
+            );
+        };
+
         const App = () => {
             return (
                 <MemoryRouter>
@@ -1281,6 +1626,8 @@
                         <Route path="/onboarding/7" element={<OnboardingFinal />} />
                         <Route path="/dashboard" element={<DashboardPage />} />
                         <Route path="/explore" element={<ExplorePage />} />
+                        <Route path="/interview" element={<InterviewAIPage />} />
+                        <Route path="/ai" element={<InterviewAIPage />} />
                         <Route path="/roadmap" element={<RoadmapPage />} />
                         <Route path="/evolution" element={<EvolutionPage />} />
                         <Route path="/profile" element={<ProfilePage />} />
